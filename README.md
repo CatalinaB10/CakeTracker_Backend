@@ -1,1 +1,1 @@
-In this repo you can find the backend for the CakeTracker application. Here I have used Java Spring Boot to achieve a RESTful API for my web app and I chose to store my data in a PostgreSQL database. I suggest you clone this repository and open it with IntelliJ Idea (from JetBrains), you may need to install pgAdmin for the postgres database, and to setup a server.
+
