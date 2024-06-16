@@ -46,8 +46,12 @@ public class BirdthdayServImpl implements BirthdayService{
         return employees.stream().map(EmployeeMapper::mapToDto).toList();
     }
     @Override
-
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO){
+        try {
+            Validators.validateEmployee(employeeDTO);
+        }catch (IllegalArgumentException e){
+            throw new RuntimeException(e.getMessage());
+        }
         Employee employee = Employee.builder()
                 .firstName(employeeDTO.getFirstName())
                 .lastName(employeeDTO.getLastName())
@@ -60,7 +64,6 @@ public class BirdthdayServImpl implements BirthdayService{
         return EmployeeMapper.mapToDto(savedEmployee);
     }
     @Override
-
     public EmployeeDTO updateEmployee(UUID employeeId, EmployeeDTO employeeDTO) {
         Employee employee = birthdayRepo.findById(employeeId).orElseThrow(() -> new RuntimeException("Employee not found"));
         employee.setFirstName(employeeDTO.getFirstName());
@@ -73,7 +76,6 @@ public class BirdthdayServImpl implements BirthdayService{
         return EmployeeMapper.mapToDto(savedEmployee);
     }
     @Override
-
     public void deleteEmployee(UUID employeeId){
         birthdayRepo.deleteById(employeeId);
         log.info("Employee deleted with id: " + employeeId);
