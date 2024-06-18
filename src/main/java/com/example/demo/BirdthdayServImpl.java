@@ -4,7 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,6 +81,23 @@ public class BirdthdayServImpl implements BirthdayService{
     public void deleteEmployee(UUID employeeId){
         birthdayRepo.deleteById(employeeId);
         log.info("Employee deleted with id: " + employeeId);
+    }
+
+    @Override
+    public List<EmployeeDTO> getByClosestBirthday() {
+        List<Employee> birthdays = birthdayRepo.findAll();
+        LocalDate currentDate = LocalDate.now();
+
+        // Sort list by closest birthdate to current date
+        birthdays.sort(Comparator.comparingLong(employee -> {
+            LocalDate nextBirthday = employee.getBirthDate().withYear(currentDate.getYear());
+            if (nextBirthday.isBefore(currentDate) || nextBirthday.isEqual(currentDate)) {
+                nextBirthday = nextBirthday.plusYears(1);
+            }
+            return ChronoUnit.DAYS.between(currentDate, nextBirthday);
+        }));
+
+        return birthdays.stream().map(EmployeeMapper::mapToDto).toList();
     }
 
 }

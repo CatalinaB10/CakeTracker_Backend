@@ -12,4 +12,6 @@ public interface BirthdayService {
     EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
     EmployeeDTO updateEmployee(UUID employeeId, EmployeeDTO employeeDTO);
     void deleteEmployee(UUID employeeId);
+
+    List<EmployeeDTO> getByClosestBirthday();
 }

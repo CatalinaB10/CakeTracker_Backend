@@ -19,7 +19,7 @@ public class BirthdayController {
     // get all employees
     @GetMapping("/employees/all")
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees(){
-        return ResponseEntity.ok(birthdayService.getAllEmployees());
+        return ResponseEntity.ok(birthdayService.getByClosestBirthday());
     }
 
     // get all employees with a birthday today
