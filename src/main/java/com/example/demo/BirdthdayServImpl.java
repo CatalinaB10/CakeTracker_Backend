@@ -91,7 +91,7 @@ public class BirdthdayServImpl implements BirthdayService{
         // Sort list by closest birthdate to current date
         birthdays.sort(Comparator.comparingLong(employee -> {
             LocalDate nextBirthday = employee.getBirthDate().withYear(currentDate.getYear());
-            if (nextBirthday.isBefore(currentDate) || nextBirthday.isEqual(currentDate)) {
+            if (nextBirthday.isBefore(currentDate)) {
                 nextBirthday = nextBirthday.plusYears(1);
             }
             return ChronoUnit.DAYS.between(currentDate, nextBirthday);
